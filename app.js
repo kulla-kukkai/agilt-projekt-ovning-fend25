@@ -102,13 +102,15 @@ ${teamBName}
     if (usernameExists) {
       document.getElementById("error").textContent = "Username already exists";
     }
+
+    //.value was needed to get age and ranking working
     const player = {
       username,
       firstname: document.getElementById("firstname").value,
       lastname: document.getElementById("lastname").value,
-      age: document.getElementById("age"),
+      age: document.getElementById("age").value,
       country: document.getElementById("country").value,
-      ranking: document.getElementById("ranking"),
+      ranking: document.getElementById("ranking").value,
     };
     const team = document.getElementById("teamSelect").value;
     if (team === "A") {
@@ -125,7 +127,10 @@ ${teamBName}
 function renderPlayerInfo() {
   const username = localStorage.getItem("selectedPlayer");
 
-  const player = teamA.find((p) => p.username === username);
+  //only team A was being filtered.
+  const player =
+    teamA.find((p) => p.username === username) ||
+    teamB.find((p) => p.username === username);
 
   const profile = document.getElementById("profile");
 
