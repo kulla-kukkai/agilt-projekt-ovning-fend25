@@ -87,11 +87,11 @@ function renderAddPlayer() {
   teamSelect.innerHTML = `
 
 <option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamAName}
+${teamA.length >= 5 ? `${teamAName} - ${teamAName} is full` : teamAName}
 </option>
 
 <option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamBName}
+${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
 </option>
 
 `;
