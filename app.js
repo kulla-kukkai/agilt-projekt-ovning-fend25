@@ -108,15 +108,9 @@ ${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
       username,
       firstname: document.getElementById("firstname").value,
       lastname: document.getElementById("lastname").value,
-<<<<<<< HEAD
-      age: document.getElementById("age").value, //added .value so it saved and shows up in player info page
-      country: document.getElementById("country").value,
-      ranking: document.getElementById("ranking").value, //added .value so it saved and shows up in player info page
-=======
       age: document.getElementById("age").value,
       country: document.getElementById("country").value,
       ranking: document.getElementById("ranking").value,
->>>>>>> bugfix/-profile-information
     };
     const team = document.getElementById("teamSelect").value;
     if (team === "A") {
