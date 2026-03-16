@@ -85,7 +85,45 @@ function usernameExists(username) {
 }
 
 function renderAddPlayer() {
+  //If the edit button is pressed, find it in local storage and use the saved username.
+  const editUsername = localStorage.getItem("editPlayer");
+  const addBtn = document.getElementById("add-btn");
+  const saveEditBtn = document.getElementById("save-edit-btn");
   const teamSelect = document.getElementById("teamSelect");
+
+  if (editUsername) {
+    addBtn.style.display = "none";
+    saveEditBtn.style.display = "inline-block";
+    teamSelect.disabled = true;
+
+    //find the player using the username
+    const player =
+      teamA.find((p) => p.username === editUsername) ||
+      teamB.find((p) => p.username === editUsername);
+
+    //show all the current values
+    document.getElementById("username").value = player.username;
+    document.getElementById("firstname").value = player.firstname;
+    document.getElementById("lastname").value = player.lastname;
+    document.getElementById("age").value = player.age;
+    document.getElementById("country").value = player.country;
+    document.getElementById("ranking").value = player.ranking;
+
+    saveEditBtn.addEventListener("click", () => {
+      //set the new inputs as the new values
+      player.username = document.getElementById("username").value;
+      player.firstname = document.getElementById("firstname").value;
+      player.lastname = document.getElementById("lastname").value;
+      player.age = document.getElementById("age").value;
+      player.country = document.getElementById("country").value;
+      player.ranking = document.getElementById("ranking").value;
+
+      //save, remove item from local storage and go to main page
+      save();
+      localStorage.removeItem("editPlayer");
+      window.location.href = "index.html";
+    });
+  }
 
   teamSelect.innerHTML = `
 
@@ -102,7 +140,8 @@ ${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
   document.getElementById("playerForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value;
-    if (usernameExists(username)) {
+    //Added extra check so that if the user still wants to keep the same username he wont get an error
+    if (!editUsername && usernameExists(username)) {
       document.getElementById("error").textContent = "Username already exists";
       return;
     }
@@ -149,8 +188,15 @@ function renderPlayerInfo() {
 <button onclick="window.location='index.html'">
 Back
 </button>
+<button onclick="editPlayer('${player.username}')">Edit</button>
 
 </div>
 
 `;
+}
+
+//save username in local storage and move to add player page
+function editPlayer(username) {
+  localStorage.setItem("editPlayer", username);
+  window.location.href = "addplayer.html";
 }
