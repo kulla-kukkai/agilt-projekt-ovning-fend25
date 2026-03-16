@@ -102,8 +102,9 @@ ${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
   document.getElementById("playerForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value;
-    if (usernameExists) {
+    if (usernameExists(username)) {
       document.getElementById("error").textContent = "Username already exists";
+      return;
     }
 
     //.value was needed to get age and ranking working
