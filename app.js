@@ -209,3 +209,57 @@ function editPlayer(username) {
   localStorage.setItem("editPlayer", username);
   window.location.href = "addplayer.html";
 }
+const rankValues = {
+    iron: 1,
+    bronze: 2,
+    silver: 3,
+    gold: 4,
+    diamond: 5
+};
+
+const ranks = ["Iron", "Bronze", "Silver", "Gold", "Diamond"];
+
+function getTeamStats(team) {
+    const count = team.length
+
+    if(count === 0){
+        return {
+            count: 0,
+            avgAge: 0,
+            avgRank: 0
+        }
+    }
+
+    const totalAge = team.reduce((sum, p) => sum + Number(p.age), 0)
+    const totalRank = team.reduce((sum, p) => {
+        return sum + rankValues[p.ranking.toLowerCase()];
+    }, 0);
+
+    const avgRankNumber = totalRank / count
+    const avgRankText = ranks[Math.round(avgRankNumber - 1)]
+
+    return {
+        count,
+        avgAge: (totalAge / count).toFixed(1),
+        avgRank: avgRankText
+    }
+}
+
+function showStatistics() {
+    const statsA = getTeamStats(teamA)
+    const statsB = getTeamStats(teamB)
+    const statsDiv = document.getElementById("statistics")
+    statsDiv.innerHTML = `
+    <h2>Team statistics</h2>
+
+    <h3>${teamAName}</h3>
+    <p>Players: ${statsA.count}</p>
+    <p>Average Age: ${statsA.avgAge}</p>
+    <p>Average Ranking: ${statsA.avgRank}</p>
+
+    <h3>${teamBName}</h3>
+    <p>Players: ${statsB.count}</p>
+    <p>Average Age: ${statsB.avgAge}</p>
+    <p>Average Ranking: ${statsB.avgRank}</p>
+    `
+}
