@@ -110,6 +110,15 @@ function renderAddPlayer() {
     document.getElementById("ranking").value = player.ranking;
 
     saveEditBtn.addEventListener("click", () => {
+      const newUsername = document.getElementById("username").value;
+
+      // Prevent duplicate usernames
+      if (usernameExists(newUsername) && newUsername !== editUsername) {
+        document.getElementById("error").textContent =
+          "Username already exists";
+        return;
+      }
+
       //set the new inputs as the new values
       player.username = document.getElementById("username").value;
       player.firstname = document.getElementById("firstname").value;
@@ -141,7 +150,7 @@ ${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
     e.preventDefault();
     const username = document.getElementById("username").value;
     //Added extra check so that if the user still wants to keep the same username he wont get an error
-    if (!editUsername && usernameExists(username)) {
+    if (usernameExists(username) && username !== editUsername) {
       document.getElementById("error").textContent = "Username already exists";
       return;
     }
