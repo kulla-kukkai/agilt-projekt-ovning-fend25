@@ -332,7 +332,6 @@ select option { background: var(--surface); color: var(--text); }
     overflow: hidden;
 }
 
-/* ชื่อผู้เล่น */
 .profile h2 {
     font-family: 'Unbounded', sans-serif;
     font-size: clamp(18px, 4vw, 28px);
