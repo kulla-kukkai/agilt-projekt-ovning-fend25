@@ -111,6 +111,16 @@ function renderAddPlayer() {
 
     saveEditBtn.addEventListener("click", () => {
       const newUsername = document.getElementById("username").value;
+      const age = Number(document.getElementById("age").value); 
+      const ranking = document.getElementById("ranking").value;  
+
+      // Validate the player data before saving
+      const error = validatePlayer(newUsername, age, ranking);
+      if (error) {
+        document.getElementById("error").innerHTML = error;
+      return;
+      }
+      document.getElementById("error").innerHTML = error; 
 
       // Prevent duplicate usernames
       if (usernameExists(newUsername) && newUsername !== editUsername) {
@@ -149,6 +159,17 @@ ${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
   document.getElementById("playerForm").addEventListener("submit", (e) => {
     e.preventDefault();
     const username = document.getElementById("username").value;
+    const age = Number(document.getElementById("age").value); // added to get the age value for validation
+    const ranking = document.getElementById("ranking").value; // added to get the ranking value for validation
+
+    // Validate the player data before adding or editing
+    const error = validatePlayer(username, age, ranking);
+    if (error) {
+      document.getElementById("error").innerHTML = error;
+      return;
+    }
+    document.getElementById("error").innerHTML = "";
+
     //Added extra check so that if the user still wants to keep the same username he wont get an error
     if (usernameExists(username) && username !== editUsername) {
       document.getElementById("error").textContent = "Username already exists";
@@ -263,3 +284,22 @@ function showStatistics() {
     <p>Average Ranking: ${statsB.avgRank}</p>
     `
 }
+
+//feature/validation: username, age, ranking
+function validatePlayer(username, age, ranking) {
+  const errors = [];
+
+  if (username.length < 3) {
+    errors.push("🚨 Username must be at least 3 characters");
+  }
+  if (age < 13 || age > 50) {
+    errors.push("🚨 Age must be between 13 and 50");
+  }
+  if (!ranking || ranking === "") {
+    errors.push("🚨 You must select a ranking");
+  }
+  return errors.length > 0 ? errors.join("<br>") : null;
+}
+
+
+
