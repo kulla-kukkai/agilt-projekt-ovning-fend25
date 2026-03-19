@@ -26,8 +26,12 @@ function renameTeam(team) {
 }
 
 function renderHome() {
-  document.getElementById("teamAName").textContent = teamAName;
-  document.getElementById("teamBName").textContent = teamBName;
+  const teamADisplayName = document.getElementById("teamAName");
+  teamADisplayName.textContent = teamAName;
+  const teamBDisplayName = document.getElementById("teamBName");
+  teamBDisplayName.textContent = teamBName;
+  const teamACount = ` (${teamA.length} players)`;
+  const teamBCount = ` (${teamB.length} players)`;
   const listA = document.getElementById("teamAList");
   const listB = document.getElementById("teamBList");
   listA.innerHTML = "";
@@ -35,6 +39,9 @@ function renderHome() {
 
   checkTeamSize(teamA, listA);
   checkTeamSize(teamB, listB);
+
+  teamADisplayName.append(teamACount);
+  teamBDisplayName.append(teamBCount);
 
   teamA.forEach((p) => {
     const li = document.createElement("li");
