@@ -1,441 +1,497 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=DM+Mono:wght@400;500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=DM+Mono:wght@400;500&display=swap");
 :root {
   /* background */
-    --bg:      #0e0b14;   /* page background */
-    --surface: #1a1330;   /* card/input background */
+  --bg: #0e0b14; /* page background */
+  --surface: #1a1330; /* card/input background */
 
   /* main colors */
-    --violet:  #a855f7;   /* Team A, main accent */
-    --pink:    #ec4899;   /* Team B, secondary accent */
-    --rose:    #f472b6;   /* hover state */
+  --violet: #a855f7; /* Team A, main accent */
+  --pink: #ec4899; /* Team B, secondary accent */
+  --rose: #f472b6; /* hover state */
 
   /* text */
-    --text:    #f3eeff;   
-    --muted:   #9d8bbf;   /* label */
-    --dim:     #4e3f6b;   /* placeholder */
+  --text: #f3eeff;
+  --muted: #9d8bbf; /* label */
+  --dim: #4e3f6b; /* placeholder */
+  --red: #ef4444;
 
-    --border:  rgba(255,255,255,0.10); 
+  --border: rgba(255, 255, 255, 0.1);
 
   /* border radius */
-    --r: 14px;   
+  --r: 14px;
 }
 
 /* default styles så att alla element får samma utseende */
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-    font-family: 'DM Mono', monospace;
-    font-size: 15px;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    padding-bottom: 80px;
-    -webkit-font-smoothing: antialiased; /* för bättre textrendering */
+  font-family: "DM Mono", monospace;
+  font-size: 15px;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 80px;
+  -webkit-font-smoothing: antialiased; /* för bättre textrendering */
 }
 
 nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    padding: 0 24px;
-    background: var(--bg);
-    border-bottom: 1px solid var(--border);
-    box-shadow: 0 1px 12px rgba(168,85,247,0.5), 0 2px 32px rgba(168,85,247,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  box-shadow:
+    0 1px 12px rgba(168, 85, 247, 0.5),
+    0 2px 32px rgba(168, 85, 247, 0.2);
 }
 
 nav a {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: var(--muted);
-    padding: 18px 14px;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;   /* så att border-bottom  täcker border  av nav */
-    transition: color 0.15s, border-color 0.15s;
+  font-family: "Unbounded", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 18px 14px;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px; /* så att border-bottom  täcker border  av nav */
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 nav a:hover {
-    color: var(--text);
-    border-bottom-color: var(--violet);
+  color: var(--text);
+  border-bottom-color: var(--violet);
 }
 
 h1 {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(24px, 5vw, 56px);
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    padding: 48px 24px 36px;
-    max-width: 880px;
-    margin: 0 auto;
-    
-    /* gradient text */
-    background: linear-gradient(120deg, var(--rose), var(--violet));
-    -webkit-background-clip: text; /*det är en webkit-specifik egenskap för att klippa bakgrunden till texten */
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(24px, 5vw, 56px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  padding: 48px 24px 36px;
+  max-width: 880px;
+  margin: 0 auto;
+
+  /* gradient text */
+  background: linear-gradient(120deg, var(--rose), var(--violet));
+  -webkit-background-clip: text; /*det är en webkit-specifik egenskap för att klippa bakgrunden till texten */
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .rename {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    max-width: 880px;
-    margin: 0 auto 24px;
-    padding: 16px 22px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 2px solid var(--violet);
-    border-radius: var(--r);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  max-width: 880px;
+  margin: 0 auto 24px;
+  padding: 16px 22px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--violet);
+  border-radius: var(--r);
 }
 
 .teams {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    max-width: 880px;
-    margin: 0 auto;
-    padding: 0 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
 @media (max-width: 560px) {
-    .teams { grid-template-columns: 1fr; } /*så att korten visas i en kolumn på mobile*/
+  .teams {
+    grid-template-columns: 1fr;
+  } /*så att korten visas i en kolumn på mobile*/
 }
 
-
-
 .team {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--violet);   /* en linje för att visa vilken team det tillhör */
-    border-radius: var(--r);
-    overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--violet); /* en linje för att visa vilken team det tillhör */
+  border-radius: var(--r);
+  overflow: hidden;
 }
 
 .team:last-child {
-    border-top-color: var(--pink);
+  border-top-color: var(--pink);
 }
 
 .team h2 {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--violet);
-    padding: 14px 16px 12px;
-    border-bottom: 1px solid var(--border);
+  font-family: "Unbounded", sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--violet);
+  padding: 14px 16px 12px;
+  border-bottom: 1px solid var(--border);
 }
 
 .team:last-child h2 {
-    color: var(--pink);
+  color: var(--pink);
 }
 
 ul {
-    list-style: none;
-    padding: 8px;
-    min-height: 72px;   /* det är en minsta höjd för att carden inte ska kollapsa när det inte finns några spelare */
+  list-style: none;
+  padding: 8px;
+  min-height: 72px; /* det är en minsta höjd för att carden inte ska kollapsa när det inte finns några spelare */
 }
 
 .player {
-    display: flex;
-    align-items: stretch;
-    margin-bottom: 4px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: background 0.15s;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 4px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background 0.15s;
 }
 
 .player:hover {
-    background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .player span {
-    font-size: 13px;
-    color: var(--text);
-    padding: 10px 10px;
-    flex: 1;
-    cursor: pointer;
-    transition: color 0.15s;
+  font-size: 13px;
+  color: var(--text);
+  padding: 10px 10px;
+  flex: 1;
+  cursor: pointer;
+  transition: color 0.15s;
 }
 
-.player span:hover          { color: var(--violet); }
-#teamBList .player span:hover { color: var(--rose); }
+.player span:hover {
+  color: var(--violet);
+}
+#teamBList .player span:hover {
+  color: var(--rose);
+}
 
 button {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    cursor: pointer;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 9px 16px;
-    border-radius: 8px;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  font-family: "Unbounded", sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 9px 16px;
+  border-radius: 8px;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
 }
 
 button:hover {
-    background: rgba(255,255,255,0.06);
-    color: var(--text);
-    border-color: rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 /* Remove button inom .player */
 .player button {
-    padding: 0 12px;
-    align-self: stretch;
-    border: none;
-    border-left: 1px solid var(--border);
-    border-radius: 0;
-    color: var(--dim);
+  padding: 0 12px;
+  align-self: stretch;
+  border: none;
+  border-left: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--dim);
 }
 
 .player button:hover {
-    background: rgba(236,72,153,0.12);
-    color: var(--rose);
+  background: rgba(236, 72, 153, 0.12);
+  color: var(--rose);
 }
 
 #add-btn {
-    background: linear-gradient(135deg, #7c3aed, var(--pink));
-    color: #fff;
-    border: none;
-    width: 100%;
-    padding: 13px;
-    font-size: 10px;
-    border-radius: var(--r);
-    margin-top: 8px;
+  background: linear-gradient(135deg, #7c3aed, var(--pink));
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 13px;
+  font-size: 10px;
+  border-radius: var(--r);
+  margin-top: 8px;
 }
 
-#add-btn:hover { opacity: 0.88; }
+#add-btn:hover {
+  opacity: 0.88;
+}
 
 #save-edit-btn {
-    background: linear-gradient(135deg, var(--violet), #7c3aed);
-    color: #fff;
-    border: none;
-    width: 100%;
-    padding: 13px;
-    font-size: 10px;
-    border-radius: var(--r);
-    margin-top: 8px;
+  background: linear-gradient(135deg, var(--violet), #7c3aed);
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 13px;
+  font-size: 10px;
+  border-radius: var(--r);
+  margin-top: 8px;
 }
 
-#save-edit-btn:hover { opacity: 0.88; }
+#save-edit-btn:hover {
+  opacity: 0.88;
+}
 
 /* Back — player profile */
 .profile button {
-    display: block;
-    margin: 0 24px 8px;
-    width: calc(100% - 48px);
-    color: var(--muted);
-    border-color: var(--border);
+  display: block;
+  margin: 0 24px 8px;
+  width: calc(100% - 48px);
+  color: var(--muted);
+  border-color: var(--border);
 }
 
 .profile button:hover {
-    color: var(--text);
-    background: rgba(255,255,255,0.06); 
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .profile button:last-child {
-    margin-bottom: 24px;
-    color: var(--violet);
-    border-color: rgba(168,85,247,0.35);
+  margin-bottom: 24px;
+  color: var(--violet);
+  border-color: rgba(168, 85, 247, 0.35);
 }
 
 .profile button:last-child:hover {
-    background: rgba(168,85,247,0.1);
-    color: var(--rose);
+  background: rgba(168, 85, 247, 0.1);
+  color: var(--rose);
 }
-
 
 input,
 select {
-    font-family: 'DM Mono', monospace;
-    font-size: 13px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    color: var(--text);
-    padding: 11px 14px;
-    outline: none;
-    width: 100%;
-    appearance: none;
-    -webkit-appearance: none;
-    transition: border-color 0.15s, box-shadow 0.15s;
+  font-family: "DM Mono", monospace;
+  font-size: 13px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 11px 14px;
+  outline: none;
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 select {
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23a855f7' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-    padding-right: 36px;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23a855f7' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
 }
 
-select option { background: var(--surface); color: var(--text); }
+select option {
+  background: var(--surface);
+  color: var(--text);
+}
 
 .rename input {
-    width: auto;
-    flex: 1;
-    min-width: 100px;
-    max-width: 200px;
+  width: auto;
+  flex: 1;
+  min-width: 100px;
+  max-width: 200px;
 }
 
 #playerForm {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
 }
 
 #error {
-    font-size: 12px;
-    color: var(--rose);
-    max-width: 480px;
-    margin: 4px auto 0;
-    padding: 0 24px;
-    min-height: 18px;
+  font-size: 12px;
+  color: var(--rose);
+  max-width: 480px;
+  margin: 4px auto 0;
+  padding: 0 24px;
+  min-height: 18px;
 }
 
 #profile {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
-    padding: 0 24px;
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  padding: 0 24px;
 }
 
 .profile {
-    width: 100%;
-    max-width: 440px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-top: 2px solid var(--violet);
-    border-radius: var(--r);
-    overflow: hidden;
+  width: 100%;
+  max-width: 440px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--violet);
+  border-radius: var(--r);
+  overflow: hidden;
 }
 
 .profile h2 {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(18px, 4vw, 28px);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--text);
-    padding: 24px 24px 20px;
-    border-bottom: 1px solid var(--border);
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(18px, 4vw, 28px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding: 24px 24px 20px;
+  border-bottom: 1px solid var(--border);
 }
 
 /* (Name, Age, Country, Ranking) */
 .profile p {
-    font-size: 13px;
-    color: var(--muted);
-    padding: 13px 24px;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  padding: 13px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
 }
 
-.profile p:last-of-type { border-bottom: none; }
+.profile p:last-of-type {
+  border-bottom: none;
+}
 
 /* label  "Name:", "Age:" */
 .profile p b {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 8px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--dim);
-    font-weight: 700;
-    flex-shrink: 0;
+  font-family: "Unbounded", sans-serif;
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--dim);
+  font-weight: 700;
+  flex-shrink: 0;
 }
 
 #statistics {
-    max-width: 880px;
-    margin: 32px auto 0;
-    padding: 0 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+  max-width: 880px;
+  margin: 32px auto 0;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 #statistics h2 {
-    font-family: 'Unbounded', sans-serif;
-    font-size: clamp(18px, 3vw, 26px);
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-    color: var(--text);
-    padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 4px;
+  font-family: "Unbounded", sans-serif;
+  font-size: clamp(18px, 3vw, 26px);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--text);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
 }
 
 #statistics h3 {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--violet);
-    margin-bottom: 10px;
+  font-family: "Unbounded", sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--violet);
+  margin-bottom: 10px;
 }
 
 /* Team B */
 #statistics h3:last-of-type {
-    color: var(--pink);
+  color: var(--pink);
 }
 
 /* statistics lines */
 #statistics p {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 10px 14px;
-    margin-bottom: 4px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 10px 14px;
+  margin-bottom: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
 }
 
 /*Ändra statistics button*/
 body > button {
-    display: block;
-    margin: 24px auto 0;
+  display: block;
+  margin: 24px auto 0;
 }
 
 @media (max-width: 480px) {
-    h1          { padding: 32px 16px 24px; }
-    .rename     { margin: 0 16px 20px; padding: 14px 16px; }
-    .rename input { max-width: 130px; min-width: 80px; }
-    .teams      { padding: 0 16px; }
-    #playerForm { padding: 0 16px; }
-    #error      { padding: 0 16px; }
-    #profile    { padding: 0 16px; }
-    #statistics { padding: 0 16px; }
-    
-    .profile h2     { padding: 20px 18px 16px; }
-    .profile p      { padding: 11px 18px; }
-    .profile button { margin-left: 18px; margin-right: 18px; width: calc(100% - 36px); }
+  h1 {
+    padding: 32px 16px 24px;
+  }
+  .rename {
+    margin: 0 16px 20px;
+    padding: 14px 16px;
+  }
+  .rename input {
+    max-width: 130px;
+    min-width: 80px;
+  }
+  .teams {
+    padding: 0 16px;
+  }
+  #playerForm {
+    padding: 0 16px;
+  }
+  #error {
+    padding: 0 16px;
+  }
+  #profile {
+    padding: 0 16px;
+  }
+  #statistics {
+    padding: 0 16px;
+  }
+
+  .profile h2 {
+    padding: 20px 18px 16px;
+  }
+  .profile p {
+    padding: 11px 18px;
+  }
+  .profile button {
+    margin-left: 18px;
+    margin-right: 18px;
+    width: calc(100% - 36px);
+  }
+}
+
+/* Min requirement message */
+.min-req-msg {
+  color: var(--red);
+  text-align: center;
 }

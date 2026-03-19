@@ -32,6 +32,10 @@ function renderHome() {
   const listB = document.getElementById("teamBList");
   listA.innerHTML = "";
   listB.innerHTML = "";
+
+  checkTeamSize(teamA, listA);
+  checkTeamSize(teamB, listB);
+
   teamA.forEach((p) => {
     const li = document.createElement("li");
     li.className = "player";
@@ -136,12 +140,12 @@ function renderAddPlayer() {
 
   teamSelect.innerHTML = `
 
-<option value="A" ${teamA.length >= 5 ? "disabled" : ""}>
-${teamA.length >= 5 ? `${teamAName} - ${teamAName} is full` : teamAName}
+<option value="A" ${teamA.length >= 7 ? "disabled" : ""}>
+${teamA.length >= 7 ? `${teamAName} - ${teamAName} is full` : teamAName}
 </option>
 
-<option value="B" ${teamB.length >= 5 ? "disabled" : ""}>
-${teamB.length >= 5 ? `${teamBName} - ${teamBName} is full` : teamBName}
+<option value="B" ${teamB.length >= 7 ? "disabled" : ""}>
+${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
 </option>
 
 `;
@@ -210,46 +214,46 @@ function editPlayer(username) {
   window.location.href = "addplayer.html";
 }
 const rankValues = {
-    iron: 1,
-    bronze: 2,
-    silver: 3,
-    gold: 4,
-    diamond: 5
+  iron: 1,
+  bronze: 2,
+  silver: 3,
+  gold: 4,
+  diamond: 5,
 };
 
 const ranks = ["Iron", "Bronze", "Silver", "Gold", "Diamond"];
 
 function getTeamStats(team) {
-    const count = team.length
+  const count = team.length;
 
-    if(count === 0){
-        return {
-            count: 0,
-            avgAge: 0,
-            avgRank: 0
-        }
-    }
-
-    const totalAge = team.reduce((sum, p) => sum + Number(p.age), 0)
-    const totalRank = team.reduce((sum, p) => {
-        return sum + rankValues[p.ranking.toLowerCase()];
-    }, 0);
-
-    const avgRankNumber = totalRank / count
-    const avgRankText = ranks[Math.round(avgRankNumber - 1)]
-
+  if (count === 0) {
     return {
-        count,
-        avgAge: (totalAge / count).toFixed(1),
-        avgRank: avgRankText
-    }
+      count: 0,
+      avgAge: 0,
+      avgRank: 0,
+    };
+  }
+
+  const totalAge = team.reduce((sum, p) => sum + Number(p.age), 0);
+  const totalRank = team.reduce((sum, p) => {
+    return sum + rankValues[p.ranking.toLowerCase()];
+  }, 0);
+
+  const avgRankNumber = totalRank / count;
+  const avgRankText = ranks[Math.round(avgRankNumber - 1)];
+
+  return {
+    count,
+    avgAge: (totalAge / count).toFixed(1),
+    avgRank: avgRankText,
+  };
 }
 
 function showStatistics() {
-    const statsA = getTeamStats(teamA)
-    const statsB = getTeamStats(teamB)
-    const statsDiv = document.getElementById("statistics")
-    statsDiv.innerHTML = `
+  const statsA = getTeamStats(teamA);
+  const statsB = getTeamStats(teamB);
+  const statsDiv = document.getElementById("statistics");
+  statsDiv.innerHTML = `
     <h2>Team statistics</h2>
 
     <h3>${teamAName}</h3>
@@ -261,5 +265,20 @@ function showStatistics() {
     <p>Players: ${statsB.count}</p>
     <p>Average Age: ${statsB.avgAge}</p>
     <p>Average Ranking: ${statsB.avgRank}</p>
-    `
+    `;
+}
+
+function checkTeamSize(team, list) {
+  const message = document.createElement("p");
+  message.classList.add("min-req-msg");
+  list.after(message);
+
+  if (list) {
+    const count = team.length;
+
+    if (count < 3) {
+      const remaining = 3 - count;
+      message.innerText = `${remaining} more player${remaining === 1 ? "" : "s"} needed.`;
+    }
+  }
 }
