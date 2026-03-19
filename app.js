@@ -268,17 +268,19 @@ function showStatistics() {
     `;
 }
 
+//Informs user of how many players are needed in DOM
 function checkTeamSize(team, list) {
+  // Remove old message first
+  const oldMessage = list.parentNode.querySelector(".min-req-msg");
+  if (oldMessage) oldMessage.remove();
+
   const message = document.createElement("p");
   message.classList.add("min-req-msg");
-  list.after(message);
 
-  if (list) {
-    const count = team.length;
-
-    if (count < 3) {
-      const remaining = 3 - count;
-      message.innerText = `${remaining} more player${remaining === 1 ? "" : "s"} needed.`;
-    }
+  const count = team.length;
+  if (count < 3) {
+    const remaining = 3 - count;
+    message.innerText = `${remaining} more player${remaining === 1 ? "" : "s"} needed.`;
+    list.after(message);
   }
 }
