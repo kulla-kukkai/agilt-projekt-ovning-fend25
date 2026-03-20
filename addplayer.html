@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Add Player</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="app.js"></script>
   </head>
   <body>
@@ -17,7 +18,9 @@
       <input id="firstname" placeholder="First name" required />
       <input id="lastname" placeholder="Last name" required />
       <input id="age" type="number" placeholder="Age" required />
-      <input id="country" placeholder="Country" required />
+      <select id="country">
+        <option value="" hidden></option>
+      </select>
       <select id="ranking">
         <option>Iron</option>
         <option>Bronze</option>
