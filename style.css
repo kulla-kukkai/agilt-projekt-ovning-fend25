@@ -495,3 +495,11 @@ body > button {
   color: var(--red);
   text-align: center;
 }
+
+/* When editing, change cursor when user wants to change teams */
+#teamSelect:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #2a223d;
+  color: #9d8bbf;
+}
