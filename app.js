@@ -48,7 +48,7 @@ function renderHome() {
     li.className = "player";
     li.innerHTML = `
 
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
+<span onclick="goToPlayer('${p.username}')">${p.username} (${getRank(p.level)})</span>
 
 <button onclick="removePlayer('A','${p.username}')">
 Remove
@@ -61,7 +61,7 @@ Remove
     const li = document.createElement("li");
     li.className = "player";
     li.innerHTML = `
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
+<span onclick="goToPlayer('${p.username}')">${p.username} (${getRank(p.level)})</span>
 <button onclick="removePlayer('B','${p.username}')">
 Remove
 </button>
@@ -118,7 +118,7 @@ function renderAddPlayer() {
     document.getElementById("lastname").value = player.lastname;
     document.getElementById("age").value = player.age;
     document.getElementById("country").value = player.country;
-    document.getElementById("ranking").value = player.ranking;
+    document.getElementById("ranking").value = player.level;
 
     saveEditBtn.addEventListener("click", () => {
       const newUsername = document.getElementById("username").value;
@@ -136,7 +136,7 @@ function renderAddPlayer() {
       player.lastname = document.getElementById("lastname").value;
       player.age = document.getElementById("age").value;
       player.country = document.getElementById("country").value;
-      player.ranking = document.getElementById("ranking").value;
+      player.level = document.getElementById("ranking").value;
 
       //save, remove item from local storage and go to main page
       save();
@@ -173,7 +173,7 @@ ${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
       lastname: document.getElementById("lastname").value,
       age: document.getElementById("age").value,
       country: document.getElementById("country").value,
-      ranking: document.getElementById("ranking").value,
+      level: document.getElementById("ranking").value,
     };
     const team = document.getElementById("teamSelect").value;
     if (team === "A") {
@@ -203,7 +203,8 @@ function renderPlayerInfo() {
 <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
 <p><b>Age:</b> ${player?.age}</p>
 <p><b>Country:</b> ${player?.country}</p>
-<p><b>Ranking:</b> ${player?.ranking}</p>
+<p><b>Level:</b> ${player?.level}</p>
+<p><b>Rank:</b> ${getRank(player?.level)}</p>
 <br>
 <button onclick="window.location='index.html'">
 Back
@@ -220,15 +221,16 @@ function editPlayer(username) {
   localStorage.setItem("editPlayer", username);
   window.location.href = "addplayer.html";
 }
-const rankValues = {
-  iron: 1,
-  bronze: 2,
-  silver: 3,
-  gold: 4,
-  diamond: 5,
-};
 
-const ranks = ["Iron", "Bronze", "Silver", "Gold", "Diamond"];
+function getRank(level) {
+    level = Number(level) || 0
+
+    if(level <= 19) return "Iron"
+    if(level <= 39) return "Bronze"
+    if(level <= 59) return "Silver"
+    if(level <= 79) return "Gold"
+    return "Diamond"
+}
 
 function getTeamStats(team) {
   const count = team.length;
@@ -242,12 +244,12 @@ function getTeamStats(team) {
   }
 
   const totalAge = team.reduce((sum, p) => sum + Number(p.age), 0);
-  const totalRank = team.reduce((sum, p) => {
-    return sum + rankValues[p.ranking.toLowerCase()];
+  const totalLevel = team.reduce((sum, p) => {
+    return sum + Number(p.level);
   }, 0);
 
-  const avgRankNumber = totalRank / count;
-  const avgRankText = ranks[Math.round(avgRankNumber - 1)];
+  const avgLevel = totalLevel / count;
+  const avgRankText = getRank(avgLevel);
 
   return {
     count,
@@ -266,12 +268,12 @@ function showStatistics() {
     <h3>${teamAName}</h3>
     <p>Players: ${statsA.count}</p>
     <p>Average Age: ${statsA.avgAge}</p>
-    <p>Average Ranking: ${statsA.avgRank}</p>
+    <p>Average Rank: ${statsA.avgRank}</p>
 
     <h3>${teamBName}</h3>
     <p>Players: ${statsB.count}</p>
     <p>Average Age: ${statsB.avgAge}</p>
-    <p>Average Ranking: ${statsB.avgRank}</p>
+    <p>Average Rank: ${statsB.avgRank}</p>
     `;
 }
 
