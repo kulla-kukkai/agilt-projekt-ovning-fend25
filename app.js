@@ -102,6 +102,8 @@ function renderAddPlayer() {
   const saveEditBtn = document.getElementById("save-edit-btn");
   const teamSelect = document.getElementById("teamSelect");
 
+  renderCountries();
+
   if (editUsername) {
     addBtn.style.display = "none";
     saveEditBtn.style.display = "inline-block";
@@ -295,4 +297,27 @@ function checkTeamSize(team, list) {
   } else {
     message.style.display = "none";
   }
+}
+
+async function getCountries() {
+  const response = await axios.get(
+    "https://restcountries.com/v3.1/region/europe",
+  );
+  const responseData = response.data;
+  console.log(responseData);
+  return responseData;
+}
+
+async function renderCountries() {
+  const data = await getCountries();
+
+  const countryInput = document.getElementById("country");
+
+  data.forEach((country) => {
+    const countryOption = document.createElement("option");
+    countryOption.innerText = country.name.common;
+    countryOption.value = country.name.common;
+
+    countryInput.append(countryOption);
+  });
 }
