@@ -61,7 +61,7 @@ Remove
     const li = document.createElement("li");
     li.className = "player";
     li.innerHTML = `
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
+<span onclick="goToPlayer('${p.username}')"> <img src="${p.flag}" width="20px"> ${p.username}</span>
 <button onclick="removePlayer('B','${p.username}')">
 Remove
 </button>
