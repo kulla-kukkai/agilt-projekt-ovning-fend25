@@ -48,7 +48,7 @@ function renderHome() {
     li.className = "player";
     li.innerHTML = `
 
-<span onclick="goToPlayer('${p.username}')">${p.username}</span>
+<span onclick="goToPlayer('${p.username}')"> <img src="${p.flag}" width="20px"> ${p.username}</span>
 
 <button onclick="removePlayer('A','${p.username}')">
 Remove
@@ -95,14 +95,14 @@ function usernameExists(username) {
   );
 }
 
-function renderAddPlayer() {
+async function renderAddPlayer() {
   //If the edit button is pressed, find it in local storage and use the saved username.
   const editUsername = localStorage.getItem("editPlayer");
   const addBtn = document.getElementById("add-btn");
   const saveEditBtn = document.getElementById("save-edit-btn");
   const teamSelect = document.getElementById("teamSelect");
 
-  renderCountries();
+  await renderCountries();
 
   if (editUsername) {
     addBtn.style.display = "none";
@@ -122,7 +122,7 @@ function renderAddPlayer() {
     document.getElementById("country").value = player.country;
     document.getElementById("ranking").value = player.ranking;
 
-    saveEditBtn.addEventListener("click", () => {
+    saveEditBtn.addEventListener("click", async () => {
       const newUsername = document.getElementById("username").value;
 
       // Prevent duplicate usernames
@@ -139,6 +139,10 @@ function renderAddPlayer() {
       player.age = document.getElementById("age").value;
       player.country = document.getElementById("country").value;
       player.ranking = document.getElementById("ranking").value;
+
+      //update flag url when editing
+      const flagUrl = await getFlagUrl(player.country);
+      player.flag = flagUrl;
 
       //save, remove item from local storage and go to main page
       save();
@@ -159,34 +163,42 @@ ${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
 
 `;
 
-  document.getElementById("playerForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    //Added extra check so that if the user still wants to keep the same username he wont get an error
-    if (usernameExists(username) && username !== editUsername) {
-      document.getElementById("error").textContent = "Username already exists";
-      return;
-    }
+  document
+    .getElementById("playerForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      //Added extra check so that if the user still wants to keep the same username he wont get an error
+      if (usernameExists(username) && username !== editUsername) {
+        document.getElementById("error").textContent =
+          "Username already exists";
+        return;
+      }
 
-    //.value was needed to get age and ranking working
-    const player = {
-      username,
-      firstname: document.getElementById("firstname").value,
-      lastname: document.getElementById("lastname").value,
-      age: document.getElementById("age").value,
-      country: document.getElementById("country").value,
-      ranking: document.getElementById("ranking").value,
-    };
-    const team = document.getElementById("teamSelect").value;
-    if (team === "A") {
-      teamA.push(player);
-    }
-    if (team === "B") {
-      teamB.push(player);
-    }
-    save();
-    window.location.href = "index.html";
-  });
+      //.value was needed to get age and ranking working
+      const player = {
+        username,
+        firstname: document.getElementById("firstname").value,
+        lastname: document.getElementById("lastname").value,
+        age: document.getElementById("age").value,
+        country: document.getElementById("country").value,
+        ranking: document.getElementById("ranking").value,
+      };
+
+      //add flag url to player in local storage
+      const flagUrl = await getFlagUrl(player.country);
+      player.flag = flagUrl;
+
+      const team = document.getElementById("teamSelect").value;
+      if (team === "A") {
+        teamA.push(player);
+      }
+      if (team === "B") {
+        teamB.push(player);
+      }
+      save();
+      window.location.href = "index.html";
+    });
 }
 
 function renderPlayerInfo() {
@@ -204,7 +216,7 @@ function renderPlayerInfo() {
 <h2>${player?.username}</h2>
 <p><b>Name:</b> ${player?.firstname} ${player?.lastname}</p>
 <p><b>Age:</b> ${player?.age}</p>
-<p><b>Country:</b> ${player?.country}</p>
+<p><b>Country:</b>  <span> <img src="${player.flag}" width="20px">  ${player?.country} </span> </p>
 <p><b>Ranking:</b> ${player?.ranking}</p>
 <br>
 <button onclick="window.location='index.html'">
@@ -299,15 +311,16 @@ function checkTeamSize(team, list) {
   }
 }
 
+//function to get all country info from api
 async function getCountries() {
   const response = await axios.get(
     "https://restcountries.com/v3.1/region/europe",
   );
   const responseData = response.data;
-  console.log(responseData);
   return responseData;
 }
 
+//function to use api to get european countries when adding/editing player
 async function renderCountries() {
   const data = await getCountries();
 
@@ -320,4 +333,15 @@ async function renderCountries() {
 
     countryInput.append(countryOption);
   });
+}
+
+//function get to get the flag url
+async function getFlagUrl(country) {
+  const data = await getCountries();
+
+  const flag = data.find((land) => {
+    return land.name.common === country;
+  });
+
+  return flag.flags.svg;
 }
