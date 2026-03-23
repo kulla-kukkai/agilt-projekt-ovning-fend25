@@ -100,6 +100,10 @@ function renderHome() {
   const searchInput = document.getElementById("searchInput");
   if (searchInput) filterPlayers();
 
+  // Show updated statistics if some players have been added/removed/moved
+  const statsDiv = document.getElementById("statistics");
+  if (statsDiv && statsDiv.innerHTML !== "") showStatistics();
+
 }
 
 function goToPlayer(username) {
