@@ -397,7 +397,10 @@ function filterPlayers() {
         <span onclick="goToPlayer('${player.username}')">
           <img src="${player.flag}" width="20px"> ${player.username} (${getRank(player.level)})
         </span>
-        <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
+        <div class="player-actions">
+          <button class="move-btn" onclick="movePlayer('${team}', '${player.username}')">Move</button>
+          <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
+        </div>
       `;
       list.appendChild(li);
     });
