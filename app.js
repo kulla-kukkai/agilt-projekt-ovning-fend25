@@ -368,7 +368,9 @@ function filterPlayers() {
       const li = document.createElement("li");
       li.className = "player";
       li.innerHTML = `
-        <span onclick="goToPlayer('${player.username}')">${player.username}</span>
+        <span onclick="goToPlayer('${player.username}')">
+          <img src="${player.flag}" width="20px"> ${player.username} (${getRank(player.level)})
+        </span>
         <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
       `;
       list.appendChild(li);
