@@ -69,6 +69,11 @@ Remove
 `;
     listB.appendChild(li);
   });
+
+  // Filter players based on search input 
+  const searchInput = document.getElementById("searchInput");
+  if (searchInput) filterPlayers();
+
 }
 
 function goToPlayer(username) {
@@ -336,6 +341,44 @@ async function renderCountries() {
     countryInput.append(countryOption);
   });
 }
+
+function filterPlayers() {
+  const query = document.getElementById("searchInput").value.toLowerCase(); // Get the search query and convert it to lowercase for matching with player usernames.
+
+  function filterList(players, listId, team) {
+    const list = document.getElementById(listId);
+
+    list.innerHTML = ""; // Clear the current list of players.
+
+    const filtered = players.filter(p => 
+      p.username.toLowerCase().includes(query)
+    );
+
+    if (filtered.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "No players found";
+      li.style.color = "var(--muted)";
+      li.style.padding = "10px";
+      li.style.fontSize = "12px";
+      list.appendChild(li);
+      return; 
+    }
+
+    filtered.forEach((player) => {
+      const li = document.createElement("li");
+      li.className = "player";
+      li.innerHTML = `
+        <span onclick="goToPlayer('${player.username}')">${player.username}</span>
+        <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  filterList(teamA, "teamAList", "A");
+  filterList(teamB, "teamBList", "B");
+}
+
 
 //function get to get the flag url
 async function getFlagUrl(country) {

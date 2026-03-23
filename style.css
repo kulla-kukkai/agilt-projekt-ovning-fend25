@@ -496,6 +496,23 @@ body > button {
   text-align: center;
 }
 
+/* Search bar */
+.search-bar {
+  max-width: 880px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+}
+
+.search-bar input {
+  width: 100%;
+  border-left: 2px solid var(--rose);
+}
+
+.search-bar input:focus {
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
+}
+
 /* When editing, change cursor when user wants to change teams */
 #teamSelect:disabled {
   cursor: not-allowed;
