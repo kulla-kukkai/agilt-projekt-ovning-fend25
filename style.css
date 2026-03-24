@@ -107,7 +107,6 @@ nav a:hover {
   height: 2px;
   background: var(--muted);
   border-radius: 2px;
-  transition: transform 0.25s, opacity 0.25s, background 0.15s;
   transform-origin: center;
 }
 
