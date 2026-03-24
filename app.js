@@ -25,6 +25,30 @@ function renameTeam(team) {
   renderHome();
 }
 
+function movePlayer(fromTeam, username) {
+  const toTeam = fromTeam === "A" ? "B" : "A";
+  const toArr = toTeam === "A" ? teamA : teamB;
+
+  if (toArr.length >= 7) {
+    alert(`${toTeam === "A" ? teamAName : teamBName} is full!`);
+    return;
+  }
+
+  let player;
+  if (fromTeam === "A") {
+    player = teamA.find((p) => p.username === username);
+    teamA = teamA.filter((p) => p.username !== username);
+    teamB.push(player);
+  } else {
+    player = teamB.find((p) => p.username === username);
+    teamB = teamB.filter((p) => p.username !== username);
+    teamA.push(player);
+  }
+
+  save();
+  renderHome();
+}
+
 function renderHome() {
   const teamADisplayName = document.getElementById("teamAName");
   teamADisplayName.textContent = teamAName;
@@ -50,9 +74,10 @@ function renderHome() {
 
 <span onclick="goToPlayer('${p.username}')"> <img src="${p.flag}" width="20px"> ${p.username} (${getRank(p.level)})</span>
 
-<button onclick="removePlayer('A','${p.username}')">
-Remove
-</button>
+<div class="player-actions">
+  <button class="move-btn" onclick="movePlayer('A','${p.username}')">Move</button>
+  <button onclick="removePlayer('A','${p.username}')">Remove</button>
+</div>
 
 `;
     listA.appendChild(li);
@@ -62,9 +87,10 @@ Remove
     li.className = "player";
     li.innerHTML = `
 <span onclick="goToPlayer('${p.username}')"> <img src="${p.flag}" width="20px"> ${p.username} (${getRank(p.level)})</span>
-<button onclick="removePlayer('B','${p.username}')">
-Remove
-</button>
+<div class="player-actions">
+  <button class="move-btn" onclick="movePlayer('B','${p.username}')">Move</button>
+  <button onclick="removePlayer('B','${p.username}')">Remove</button>
+</div>
 
 `;
     listB.appendChild(li);
@@ -73,6 +99,10 @@ Remove
   // Filter players based on search input 
   const searchInput = document.getElementById("searchInput");
   if (searchInput) filterPlayers();
+
+  // Show updated statistics if some players have been added/removed/moved
+  const statsDiv = document.getElementById("statistics");
+  if (statsDiv && statsDiv.innerHTML !== "") showStatistics();
 
 }
 
@@ -389,7 +419,10 @@ function filterPlayers() {
         <span onclick="goToPlayer('${player.username}')">
           <img src="${player.flag}" width="20px"> ${player.username} (${getRank(player.level)})
         </span>
-        <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
+        <div class="player-actions">
+          <button class="move-btn" onclick="movePlayer('${team}', '${player.username}')">Move</button>
+          <button onclick="removePlayer('${team}', '${player.username}')">Remove</button>
+        </div>
       `;
       list.appendChild(li);
     });
