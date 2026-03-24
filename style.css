@@ -44,7 +44,7 @@ body {
 nav {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   padding: 0 24px;
@@ -53,6 +53,12 @@ nav {
   box-shadow:
     0 1px 12px rgba(168, 85, 247, 0.5),
     0 2px 32px rgba(168, 85, 247, 0.2);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 nav a {
@@ -65,15 +71,105 @@ nav a {
   color: var(--muted);
   padding: 18px 14px;
   border-bottom: 2px solid transparent;
-  margin-bottom: -1px; /* så att border-bottom  täcker border  av nav */
-  transition:
-    color 0.15s,
-    border-color 0.15s;
+  margin-bottom: -1px;
+  transition: color 0.15s, border-color 0.15s;
+  white-space: nowrap;
 }
 
 nav a:hover {
   color: var(--text);
   border-bottom-color: var(--violet);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--muted);
+  border-radius: 2px;
+  transition: transform 0.25s, opacity 0.25s, background 0.15s;
+  transform-origin: center;
+}
+
+.hamburger:hover span {
+  background: var(--violet);
+}
+
+.hamburger.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    gap: 0;
+    z-index: 199;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  nav a {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border);
+    border-left: none;
+    margin-bottom: 0;
+    font-size: 11px;
+  }
+
+  nav a:last-child {
+    border-bottom: none;
+  }
+
+  nav a:hover {
+    border-bottom-color: var(--border);
+    background: rgba(168, 85, 247, 0.08);
+    color: var(--violet);
+  }
+
+  .teams {
+    grid-template-columns: 1fr;
+  }
 }
 
 h1 {
@@ -115,12 +211,6 @@ h1 {
   max-width: 880px;
   margin: 0 auto;
   padding: 0 24px;
-}
-
-@media (max-width: 560px) {
-  .teams {
-    grid-template-columns: 1fr;
-  } /*så att korten visas i en kolumn på mobile*/
 }
 
 .team {
@@ -535,4 +625,10 @@ body > button {
   background: rgba(168, 85, 247, 0.12);
   color: var(--violet);
   opacity: 1;
+}
+
+@media (max-width: 800px) {
+  .teams {
+    grid-template-columns: 1fr;
+  }
 }

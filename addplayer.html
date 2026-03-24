@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add Player</title>
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -9,8 +10,13 @@
   </head>
   <body>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="addplayer.html">Add Player</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="addplayer.html">Add Player</a>
+      </div>
     </nav>
     <h1>Add Player</h1>
     <form id="playerForm">

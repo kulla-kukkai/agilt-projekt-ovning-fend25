@@ -2,14 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>E-sports Tournament</title>
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="addplayer.html">Add Player</a>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="addplayer.html">Add Player</a>
+      </div>
     </nav>
 
     <h1>E-sports Tournament</h1>

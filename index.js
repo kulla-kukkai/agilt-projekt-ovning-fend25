@@ -108,3 +108,11 @@ function changeTeamName() {
 
 addPlayerBtn.addEventListener("click", addPlayer);
 changeNameBtn.addEventListener("click", changeTeamName);
+
+// hamburger menu
+function toggleMenu() {
+  const links = document.getElementById("navLinks");
+  const btn = document.getElementById("hamburger");
+  links.classList.toggle("open");
+  btn.classList.toggle("active");
+}

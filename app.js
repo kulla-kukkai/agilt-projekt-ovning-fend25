@@ -465,5 +465,13 @@ function validatePlayer(username, age, country, level) {
   return errors.length > 0 ? errors.join("<br>") : null;
 }
 
+//hamburger menu
+function toggleMenu() {
+  const links = document.getElementById("navLinks");
+  const btn = document.getElementById("hamburger");
+  links.classList.toggle("open");
+  btn.classList.toggle("active");
+}
+
 
 
