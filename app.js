@@ -160,15 +160,16 @@ async function renderAddPlayer() {
     saveEditBtn.addEventListener("click", async () => {
       const newUsername = document.getElementById("username").value;
       const age = Number(document.getElementById("age").value); 
-      const ranking = document.getElementById("ranking").value;  
+      const country = document.getElementById("country").value;
+      const level = document.getElementById("ranking").value;  
 
       // Validate the player data before saving
-      const error = validatePlayer(newUsername, age, ranking);
+      const error = validatePlayer(newUsername, age, country, level);
       if (error) {
         document.getElementById("error").innerHTML = error;
       return;
       }
-      document.getElementById("error").innerHTML = error; 
+      document.getElementById("error").innerHTML = ""; 
 
       // Prevent duplicate usernames
       if (usernameExists(newUsername) && newUsername !== editUsername) {
@@ -212,10 +213,11 @@ ${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
     e.preventDefault();
     const username = document.getElementById("username").value;
     const age = Number(document.getElementById("age").value); // added to get the age value for validation
-    const ranking = document.getElementById("ranking").value; // added to get the ranking value for validation
+    const country = document.getElementById("country").value;
+    const level = document.getElementById("ranking").value; // added to get the ranking value for validation
 
     // Validate the player data before adding or editing
-    const error = validatePlayer(username, age, ranking);
+    const error = validatePlayer(username, age, country, level);
     if (error) {
       document.getElementById("error").innerHTML = error;
       return;
@@ -445,7 +447,7 @@ async function getFlagUrl(country) {
 }
 
 //feature/validation: username, age, ranking
-function validatePlayer(username, age, ranking) {
+function validatePlayer(username, age, country, level) {
   const errors = [];
 
   if (username.length < 3) {
@@ -454,8 +456,11 @@ function validatePlayer(username, age, ranking) {
   if (age < 13 || age > 50) {
     errors.push("🚨 Age must be between 13 and 50");
   }
-  if (!ranking || ranking === "") {
-    errors.push("🚨 You must select a ranking");
+  if (!country || country === "") {
+    errors.push("🚨 You must select a country");
+  }
+  if (!level || level === "") {
+    errors.push("🚨 You must enter a level (1–100)");
   }
   return errors.length > 0 ? errors.join("<br>") : null;
 }
