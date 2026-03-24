@@ -23,8 +23,27 @@
     </div>
 
     <div class="search-bar">
-      <input id="searchInput" placeholder="Search players by username..." oninput="filterPlayers()" />
+      <input
+        id="searchInput"
+        placeholder="Search players by username..."
+        oninput="filterPlayers()" />
     </div>
+
+    <div class="sort-bar">
+      <select id="sort">
+        <option value="" hidden>Sort by</option>
+        <option value="original">Original Order</option>
+        <option value="name-asc">Name (A-Z)</option>
+        <option value="name-desc">Name (Z-A)</option>
+        <option value="age-asc">Age (Youngest to Oldest)</option>
+        <option value="age-desc">Age (Oldest to Youngest)</option>
+        <option value="rank-asc">Rank (Lowest to Highest)</option>
+        <option value="rank-desc">Rank (Higest to Lowest)</option>
+      </select>
+      <button class="sort-button" onclick="sortTeams()">sort</button>
+    </div>
+
+    <p class="sorted-by">Sorted by:</p>
 
     <div class="teams">
       <div class="team">

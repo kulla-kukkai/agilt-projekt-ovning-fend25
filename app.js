@@ -1,8 +1,17 @@
 let teamA = JSON.parse(localStorage.getItem("teamA")) || [];
 let teamB = JSON.parse(localStorage.getItem("teamB")) || [];
 
+let originalTeamA = [...teamA];
+let originalTeamB = [...teamB];
+
 let teamAName = localStorage.getItem("teamAName") || "Team A";
 let teamBName = localStorage.getItem("teamBName") || "Team B";
+
+const savedSort = localStorage.getItem("sortMode");
+
+if (savedSort) {
+  updateSortLabel(savedSort);
+}
 
 function save() {
   localStorage.setItem("teamA", JSON.stringify(teamA));
@@ -96,7 +105,7 @@ function renderHome() {
     listB.appendChild(li);
   });
 
-  // Filter players based on search input 
+  // Filter players based on search input
   const searchInput = document.getElementById("searchInput");
   if (searchInput) filterPlayers();
 
@@ -104,6 +113,10 @@ function renderHome() {
   const statsDiv = document.getElementById("statistics");
   if (statsDiv && statsDiv.innerHTML !== "") showStatistics();
 
+  const savedSort = localStorage.getItem("sortMode");
+  if (savedSort) {
+    updateSortLabel(savedSort);
+  }
 }
 
 function goToPlayer(username) {
@@ -159,16 +172,16 @@ async function renderAddPlayer() {
 
     saveEditBtn.addEventListener("click", async () => {
       const newUsername = document.getElementById("username").value;
-      const age = Number(document.getElementById("age").value); 
-      const ranking = document.getElementById("ranking").value;  
+      const age = Number(document.getElementById("age").value);
+      const ranking = document.getElementById("ranking").value;
 
       // Validate the player data before saving
       const error = validatePlayer(newUsername, age, ranking);
       if (error) {
         document.getElementById("error").innerHTML = error;
-      return;
+        return;
       }
-      document.getElementById("error").innerHTML = error; 
+      document.getElementById("error").innerHTML = error;
 
       // Prevent duplicate usernames
       if (usernameExists(newUsername) && newUsername !== editUsername) {
@@ -208,25 +221,28 @@ ${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
 
 `;
 
-  document.getElementById("playerForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const username = document.getElementById("username").value;
-    const age = Number(document.getElementById("age").value); // added to get the age value for validation
-    const ranking = document.getElementById("ranking").value; // added to get the ranking value for validation
+  document
+    .getElementById("playerForm")
+    .addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const age = Number(document.getElementById("age").value); // added to get the age value for validation
+      const ranking = document.getElementById("ranking").value; // added to get the ranking value for validation
 
-    // Validate the player data before adding or editing
-    const error = validatePlayer(username, age, ranking);
-    if (error) {
-      document.getElementById("error").innerHTML = error;
-      return;
-    }
-    document.getElementById("error").innerHTML = "";
+      // Validate the player data before adding or editing
+      const error = validatePlayer(username, age, ranking);
+      if (error) {
+        document.getElementById("error").innerHTML = error;
+        return;
+      }
+      document.getElementById("error").innerHTML = "";
 
-    //Added extra check so that if the user still wants to keep the same username he wont get an error
-    if (usernameExists(username) && username !== editUsername) {
-      document.getElementById("error").textContent = "Username already exists";
-      return;
-    }
+      //Added extra check so that if the user still wants to keep the same username he wont get an error
+      if (usernameExists(username) && username !== editUsername) {
+        document.getElementById("error").textContent =
+          "Username already exists";
+        return;
+      }
 
       //.value was needed to get age and ranking working
       const player = {
@@ -236,6 +252,7 @@ ${teamB.length >= 7 ? `${teamBName} - ${teamBName} is full` : teamBName}
         age: document.getElementById("age").value,
         country: document.getElementById("country").value,
         level: document.getElementById("ranking").value,
+        createdAt: Date.now(),
       };
 
       //add flag url to player in local storage
@@ -398,8 +415,8 @@ function filterPlayers() {
 
     list.innerHTML = ""; // Clear the current list of players.
 
-    const filtered = players.filter(p => 
-      p.username.toLowerCase().includes(query)
+    const filtered = players.filter((p) =>
+      p.username.toLowerCase().includes(query),
     );
 
     if (filtered.length === 0) {
@@ -409,7 +426,7 @@ function filterPlayers() {
       li.style.padding = "10px";
       li.style.fontSize = "12px";
       list.appendChild(li);
-      return; 
+      return;
     }
 
     filtered.forEach((player) => {
@@ -431,7 +448,6 @@ function filterPlayers() {
   filterList(teamA, "teamAList", "A");
   filterList(teamB, "teamBList", "B");
 }
-
 
 //function get to get the flag url
 async function getFlagUrl(country) {
@@ -460,5 +476,71 @@ function validatePlayer(username, age, ranking) {
   return errors.length > 0 ? errors.join("<br>") : null;
 }
 
+//sort teams by name, age, rank
+function sortTeams() {
+  const sortSelect = document.getElementById("sort");
+  const value = sortSelect.value;
+  //save value for the sorted by message
+  localStorage.setItem("sortMode", value);
 
+  //the sort function
+  function sortBy(arr, category, direction) {
+    return [...arr].sort((a, b) => {
+      let valA = a[category];
+      let valB = b[category];
 
+      if (category === "age" || category === "level") {
+        valA = Number(valA);
+        valB = Number(valB);
+      }
+
+      if (valA < valB) return direction === "asc" ? -1 : 1;
+      if (valA > valB) return direction === "asc" ? 1 : -1;
+      return 0;
+    });
+  }
+
+  if (value === "original") {
+    teamA = [...originalTeamA];
+    teamB = [...originalTeamB];
+  } else if (value === "name-asc") {
+    teamA = sortBy(originalTeamA, "username", "asc");
+    teamB = sortBy(originalTeamB, "username", "asc");
+  } else if (value === "name-desc") {
+    teamA = sortBy(originalTeamA, "username", "desc");
+    teamB = sortBy(originalTeamB, "username", "desc");
+  } else if (value === "age-asc") {
+    teamA = sortBy(originalTeamA, "age", "asc");
+    teamB = sortBy(originalTeamB, "age", "asc");
+  } else if (value === "age-desc") {
+    teamA = sortBy(originalTeamA, "age", "desc");
+    teamB = sortBy(originalTeamB, "age", "desc");
+  } else if (value === "rank-asc") {
+    teamA = sortBy(originalTeamA, "level", "asc");
+    teamB = sortBy(originalTeamB, "level", "asc");
+  } else if (value === "rank-desc") {
+    teamA = sortBy(originalTeamA, "level", "desc");
+    teamB = sortBy(originalTeamB, "level", "desc");
+  }
+
+  save();
+  renderHome();
+}
+
+//function to display what the list is being sorted by
+function updateSortLabel(value) {
+  const sortedBy = document.querySelector(".sorted-by");
+  if (!sortedBy) return;
+
+  const labels = {
+    original: "Sorted by: Original Order",
+    "name-asc": "Sorted by: Name (A-Z)",
+    "name-desc": "Sorted by: Name (Z-A)",
+    "age-asc": "Sorted by: Age (Youngest to Oldest)",
+    "age-desc": "Sorted by: Age (Oldest to Youngest)",
+    "rank-asc": "Sorted by: Rank (Lowest to Highest)",
+    "rank-desc": "Sorted by: Rank (Highest to Lowest)",
+  };
+
+  sortedBy.textContent = labels[value] || "";
+}

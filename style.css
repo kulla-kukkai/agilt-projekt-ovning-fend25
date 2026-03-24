@@ -536,3 +536,16 @@ body > button {
   color: var(--violet);
   opacity: 1;
 }
+
+.sort-bar {
+  display: flex;
+  gap: 20px;
+  max-width: 880px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+}
+
+.sorted-by {
+  margin-left: 190px;
+  margin-bottom: 10px;
+}
